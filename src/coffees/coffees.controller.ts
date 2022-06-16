@@ -43,4 +43,9 @@ export class CoffeesController {
   delete(@Param('id') id: string) {
     return this.coffeesService.remove(id);
   }
+
+  @Delete('remove/all')
+  deleteAll() {
+    return this.coffeesService.removeAll();
+  }
 }

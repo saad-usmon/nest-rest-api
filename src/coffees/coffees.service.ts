@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entities/entities.entity';
 
 @Injectable()
@@ -17,12 +17,20 @@ export class CoffeesService {
   }
 
   findOne(id: string) {
-    id = id;
-    return this.coffees.find((c) => c.id === id);
+    const coffee = this.coffees.find((c) => c.id === id);
+    if (!coffee) {
+      throw new NotFoundException(`No data with this #${id}`);
+    } else {
+      return coffee;
+    }
   }
 
   create(createCoffeeDto: any) {
-    this.coffees.push(createCoffeeDto);
+    if (!createCoffeeDto) {
+      new NotFoundException('Nothing available to update!');
+    } else {
+      this.coffees.push(createCoffeeDto);
+    }
   }
 
   update(id: string, updateCoffeeDto: any) {
@@ -39,16 +47,21 @@ export class CoffeesService {
 
       this.coffees[index] = newCoffee;
     } else {
-      return `There is no coffee found with that id! :(`;
+      throw new NotFoundException(`There is no coffee found with #${id} :(`);
+      // return `There is no coffee found with that id! :(`;
     }
   }
 
   remove(id: string) {
     const coffeeIndex = this.coffees.findIndex((c) => c.id === id);
-    if (coffeeIndex >= 0) {
-      this.coffees.splice(coffeeIndex, coffeeIndex + 1);
+    if (coffeeIndex < 0) {
+      throw new NotFoundException(`There is no coffee found with ${id}`);
     } else {
-      return 'There is no coffee found with this id! :(';
+      return this.coffees.splice(coffeeIndex, coffeeIndex + 1);
     }
+  }
+
+  removeAll() {
+    this.coffees.length = 0;
   }
 }
