@@ -27,9 +27,9 @@ export class CoffeesService {
 
   create(createCoffeeDto: any) {
     if (!createCoffeeDto) {
-      new NotFoundException('Nothing available to update!');
+      throw new NotFoundException('Nothing available to update!');
     } else {
-      this.coffees.push(createCoffeeDto);
+      return this.coffees.push(createCoffeeDto);
     }
   }
 
