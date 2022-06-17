@@ -1,5 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entities/entities.entity';
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
 
 @Injectable()
 export class CoffeesService {
@@ -29,6 +30,7 @@ export class CoffeesService {
     if (!createCoffeeDto) {
       throw new NotFoundException('Nothing available to update!');
     } else {
+      createCoffeeDto.id = Math.floor(Math.random() * 10000).toString();
       return this.coffees.push(createCoffeeDto);
     }
   }
@@ -64,4 +66,8 @@ export class CoffeesService {
   removeAll() {
     this.coffees.length = 0;
   }
+
+  // generateID() {
+  //   return Math.floor(Math.random() * 10000).toString();
+  // }
 }
