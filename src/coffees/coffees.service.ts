@@ -3,6 +3,7 @@ import { Coffee } from './entities/entities.entity';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Flavor } from './entities/flavors.entity';
 
 @Injectable()
 export class CoffeesService {
@@ -17,15 +18,19 @@ export class CoffeesService {
 
   constructor(
     @InjectRepository(Coffee)
-    private readonly coffeeRepository: Repository<Coffee>,
+    private readonly coffeeRepository: Repository<Coffee>, // private readonly flavorRepository: Repository<Flavor>,
   ) {}
 
   getAll() {
-    return this.coffeeRepository.find();
+    return this.coffeeRepository.find({
+      relations: ['flavors'],
+    });
   }
 
   async findOne(id: string) {
-    const coffee = (await this.coffeeRepository.findOneById(id)) || undefined;
+    const coffee = await this.coffeeRepository.findOne(id, {
+      relations: ['flavors'],
+    });
     if (!coffee) {
       throw new NotFoundException(`No data with this #${id}`);
     } else {
