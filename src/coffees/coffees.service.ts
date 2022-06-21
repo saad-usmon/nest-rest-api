@@ -28,9 +28,7 @@ export class CoffeesService {
   }
 
   async findOne(id: string) {
-    const coffee = await this.coffeeRepository.findOne(id, {
-      relations: ['flavors'],
-    });
+    const coffee = await this.coffeeRepository.findOneById(id);
     if (!coffee) {
       throw new NotFoundException(`No data with this #${id}`);
     } else {
