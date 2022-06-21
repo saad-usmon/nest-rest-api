@@ -8,7 +8,9 @@ export class CreateCoffeeDto {
   //   @IsString()
   //   @IsNumberString()
   //   @IsString()
-  readonly id: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // readonly id: string;
   @IsString()
   @IsNotEmpty()
   readonly name: string;

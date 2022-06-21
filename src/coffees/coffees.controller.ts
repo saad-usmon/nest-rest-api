@@ -31,12 +31,13 @@ export class CoffeesController {
   @Post()
   // @HttpCode(HttpStatus.ACCEPTED)
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
-    console.log(createCoffeeDto instanceof CreateCoffeeDto);
+    // console.log(createCoffeeDto instanceof CreateCoffeeDto);
     return this.coffeesService.create(createCoffeeDto);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+    // console.log(updateCoffeeDto instanceof UpdateCoffeeDto);
     return this.coffeesService.update(id, updateCoffeeDto);
   }
 
